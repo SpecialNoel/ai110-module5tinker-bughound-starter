@@ -1,0 +1,6 @@
+Result produced by BugHound:
+* code snippet from sampled_code/cleanish.py
+** BugHound decides what problems exist in the code in ANALYZE section.
+** It decides how to change the code in ACT section.
+** It decides whether the change is safe in TEST section.
+** When the agent produces a result that feels incomplete or questionable, it will reflect it in REFLECT secion.

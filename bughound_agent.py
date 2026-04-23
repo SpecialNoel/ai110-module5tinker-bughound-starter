@@ -65,7 +65,13 @@ class BugHoundAgent:
         )
         user_prompt = (
             "Analyze this Python code for potential issues. "
-            "Return a JSON array of issue objects with keys: type, severity, msg.\n\n"
+            "Return a JSON array. Each element must match this exact shape:\n"
+            '[{"type": "Reliability", "severity": "High", "msg": "bare except swallows all errors"}]\n\n'
+            "Rules:\n"
+            "- severity must be one of: Low, Medium, High\n"
+            "- type must be one of: Reliability, Security, Code Quality, Maintainability\n"
+            "- msg must be a single sentence under 120 characters\n"
+            "- If no issues, return an empty array: []\n\n"
             f"CODE:\n{code_snippet}"
         )
 
