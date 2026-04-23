@@ -46,3 +46,21 @@ def test_missing_return_is_penalized():
     )
     assert risk["score"] < 100
     assert any("Return" in r or "return" in r for r in risk["reasons"])
+
+
+def test_invalid_severity_is_ignored_and_does_not_affect_score(capsys):
+    original = "def f():\n    return 1\n"
+    fixed = "def f():\n    return 1\n"
+    risk = assess_risk(
+        original_code=original,
+        fixed_code=fixed,
+        issues=[{"type": "Reliability", "severity": "Critical", "msg": "something bad"}],
+    )
+    # An unrecognized severity should not deduct from the score.
+    assert risk["score"] == 100
+    # The function should still return a valid, complete result.
+    assert risk["level"] == "low"
+    assert isinstance(risk["reasons"], list)
+    # The warning should have been printed to stdout.
+    captured = capsys.readouterr()
+    assert "Invalid severity" in captured.out

@@ -45,6 +45,8 @@ def assess_risk(
         elif severity == "low":
             score -= 5
             reasons.append("Low severity issue detected.")
+        else:
+            print(f"Invalid severity for issue: {issue}")
 
     # ----------------------------
     # Structural change checks
@@ -80,7 +82,8 @@ def assess_risk(
     # ----------------------------
     # Auto-fix policy
     # ----------------------------
-    should_autofix = level == "low"
+    has_high_severity = any(str(i.get("severity", "")).lower() == "high" for i in issues)
+    should_autofix = level == "low" and not has_high_severity
 
     if not reasons:
         reasons.append("No significant risks detected.")
